@@ -1,7 +1,17 @@
-Write your reflection here.
+In history.py, I learned to clean whole columns with vectorized .str methods
+instead of apply. In clean_employee_id, "E4" needed .str[1:].str.zfill(3), not
+just .str.upper(), to match the roster. clean_number used
+pd.to_numeric(errors="coerce") with .fillna(0.0), and parse_pay_date used two
+pd.to_datetime passes with a format, joined by fillna, so unreadable dates
+became NaT. combine_exports showed why pd.concat needs ignore_index=True.
 
-See reflection.md for what makes a good reflection — be specific, use the
-terminology from this assignment (grain, long vs. wide, vectorized .str methods,
-coerce, NaT, pd.to_datetime format, .dt, concat, ignore_index, group by, named
-aggregation, reset_index, pivot_table, fill_value, melt, lineage), and make it
-actionable.
+The key idea was grain. add_clean_columns and add_roster follow lineage (copy,
+add, return), but summarize_employees in summarize.py uses a group by with named
+aggregation to build a new table. In reshape.py, missed_weeks used hours_grid's
+pivot_table with fill_value=0, then melt, to turn absences into real rows.
+
+I struggled with reset_index: in summarize_employees I needed drop=True after
+sort_values to avoid an extra column. pivot_table arguments in pay_by_month also
+took help. Next, I will rebuild the filters in payroll_report_app.py from
+scratch and practice pivot_table and melt on a new dataset, using explore.py to
+check each step.
